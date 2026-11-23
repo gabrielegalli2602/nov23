@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+	
+<head>
+	
+	<meta charset="UTF-8">
+	<title>Catalogo fotografico</title>
+	
+	<style>
+		
+		body {
+			
+			font-family: Tahoma;
+			
+		}
+	
+		h1 {
+			
+			text-align: center;
+			color: red;
+			
+		}
+		
+		#contenuto {
+			
+			width: 900px;
+			height: 1000px;
+			margin: 10px auto;
+			
+		}
+		
+		#webApp {
+			
+			justify-content: center;
+			text-align: center;
+			
+		}
+		
+		#cornice {
+			
+			width: 500px;
+			height: 650px;
+			margin: 5px auto;
+			border: 10px solid red;
+			border-radius: 25px;
+			overflow: hidden;
+			
+		}
+		
+		#cornice img {
+		    width: 500px;
+		    height: 650px;
+		    object-fit: contain;
+		}
+		
+		#precedente {
+			width: 70px;
+			height: 35px;
+			background-color: red;
+			color:white;
+			border-radius: 25px;
+		}
+
+		#successivo {
+			width: 70px;
+			height: 35px;
+			background-color: red;
+			color:white;
+			border-radius: 25px;
+		}
+
+		select {
+			width: 200px;
+			height: 35px;
+			background-color: red;
+			color: white;
+			border-radius: 25px;
+		}
+	
+	</style>
+	
+</head>
+
+<body>
+	
+	<div id="contenuto">
+		
+		<h1>CAROSELLO ATTORI</h1>
+		
+		<form id="webApp" name="catalogoFoto" action="#" method="post">
+				
+			<input type="button" id="precedente" value="Prec." hidden/>
+			
+			<select id="scegliAttore" name="immagini">
+				
+				<option selected disabled>Scegli attore</option>
+				<option value="https://ntvb.tmsimg.com/assets/assets/638494_v9_bc.jpg">Alvaro Morte</option>
+				<option value="https://ntvb.tmsimg.com/assets/assets/664145_v9_bb.jpg">Ursula Corbero</option>
+				<option value="https://ntvb.tmsimg.com/assets/assets/207962_v9_bc.jpg">Pedro Alonso</option>
+				<option value="https://ntvb.tmsimg.com/assets/assets/894545_v9_bb.jpg">Miguel Herran</option>
+				<option value="https://ntvb.tmsimg.com/assets/assets/1056593_v9_bb.jpg">Jaime Lorente</option>
+				<option value="https://www.thelabtalents.com/wp-content/uploads/2021/07/706857942_18342329533219655_3991007010061834065_n.jpg">Esther Acebo</option>
+				<option value="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Paco_Tous_-_Seminci_2016_%28cropped%29.jpg/500px-Paco_Tous_-_Seminci_2016_%28cropped%29.jpg?utm_source=it.wikipedia.org&utm_campaign=index&utm_content=thumbnail">Paco Tous</option>
+				<option value="https://ipdtalent.com/wp-content/uploads/2026/07/1.jpeg">Darko Peric</option>
+				<option value="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Malaga_Film_Festival_2025_-_Enrique_Arce-1_%28cropped%29.jpg/500px-Malaga_Film_Festival_2025_-_Enrique_Arce-1_%28cropped%29.jpg?utm_source=it.wikipedia.org&utm_campaign=index&utm_content=thumbnail">Enrique Arce</option>
+				<option value="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Premios_Goya_2026_-_Mar%C3%ADa_Pedraza_%28cropped%29.jpg/250px-Premios_Goya_2026_-_Mar%C3%ADa_Pedraza_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail">Maria Pedraza</option>
+				
+			</select>
+				
+			<input type="button" id="successivo" value="Succ." hidden/>
+			
+			<div id="cornice"></div>
+			
+		</form>
+		
+		<script>
+			
+			document.getElementById("scegliAttore").addEventListener("change", cambia);
+			
+			function cambia() {
+				
+				let imgSRC = document.catalogoFoto.immagini.value;
+				document.getElementById("cornice").innerHTML = "<img src='"+imgSRC+"' />";
+					
+				document.getElementById("precedente").hidden = false;
+				document.getElementById("successivo").hidden = false;
+				
+				document.getElementById("precedente").addEventListener("click", prec);
+				document.getElementById("successivo").addEventListener("click", succ);
+				
+			}
+			
+			function prec() {
+			    
+				let copiaCAT = document.getElementById("scegliAttore");
+				let immagineSEL = document.catalogoFoto.immagini.value;
+				
+				let posizione = 1;
+				
+				for (i=1; i<copiaCAT.length; i++) {
+					
+					if (copiaCAT[i].value == immagineSEL) {
+						
+						posizione = i;
+						break
+						
+					}
+					
+				}
+				
+				if (posizione < copiaCAT.length && posizione > 1) {
+					
+					let nuovaIMG = copiaCAT[posizione-1];
+					nuovaIMG.selected = true;
+					cambia();
+					
+				}	else if (posizione == 1) {
+					
+						let nuovaIMG = copiaCAT[copiaCAT.length-1];
+						nuovaIMG.selected = true;
+						cambia();
+					
+					}
+				
+			}
+
+			function succ() {
+			    
+				let copiaCAT = document.getElementById("scegliAttore");
+				let immagineSEL = document.catalogoFoto.immagini.value;
+
+				let posizione = 1;
+
+				for (i=1; i<copiaCAT.length; i++) {
+					
+					if (copiaCAT[i].value == immagineSEL) {
+						
+						posizione = i;
+						break
+						
+					}
+					
+				}
+
+				if (posizione < copiaCAT.length-1 && posizione > 0) {
+					
+					let nuovaIMG = copiaCAT[posizione+1];
+					nuovaIMG.selected = true;
+					cambia();
+					
+				}	else if (posizione == copiaCAT.length-1) {
+
+						let nuovaIMG = copiaCAT[1];
+						nuovaIMG.selected = true;
+						cambia();
+
+					}
+				
+			}
+		
+		</script>
+		
+	</div>
+
+</body>
+
+</html>
